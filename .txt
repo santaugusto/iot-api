@@ -1,0 +1,9 @@
+| Dia | Tarefa                                         |
+| --- | ---------------------------------------------- |
+| 1   | Setup NestJS + Docker + TypeORM + Swagger      |
+| 2   | Entidades, migrations e conexão com DB         |
+| 3   | Criar comandos/handlers e endpoints de leitura |
+| 4   | Autenticação JWT                               |
+| 5   | Filtros + agregações                           |
+| 6   | Testes + documentação                          |
+| 7   | Revisão final + entrega (GitHub ou ZIP)        |

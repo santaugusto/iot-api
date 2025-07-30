@@ -13,7 +13,8 @@ import { GetReadingsQuery } from '../queries/get-readings.query';
 import { Reading } from '../entities/entitie-reading';
 import { CreateReadingCommand } from '../commands/create-reading.command';
 import { CreateReadingDto } from '../dto/create-reading.dto';
-
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+@ApiTags('readings')
 @Controller('readings')
 export class ReadingController {
   constructor(
@@ -22,6 +23,11 @@ export class ReadingController {
   ) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'Listar leituras',
+    description:
+      'Retorna todas as leituras registradas, podendo incluir temperatura ou umidade conforme o tipo do sensor',
+  })
   async getReadings(@Query() query: GetReadingsDto): Promise<Reading> {
     return this.queryBus.execute(
       new GetReadingsQuery({
@@ -33,6 +39,11 @@ export class ReadingController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Criar leitura de sensor',
+    description:
+      'Cria uma nova leitura associada a um sensor, contendo o valor numérico e um timestamp no formato ISO 8601',
+  })
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async createReading(
     @Body() body: CreateReadingDto,
