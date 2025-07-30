@@ -1,0 +1,41 @@
+services:
+  iot-db:
+    image: postgres:15
+    container_name: iot-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha123
+      POSTGRES_DB: iot_database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  iot-api:
+    container_name: iot-api
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      iot-db:
+        condition: service_healthy
+    environment:
+      DB_HOST: iot-db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: senha123
+      DB_DATABASE: iot_database
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npm run start:dev
+
+volumes:
+  postgres_data:
