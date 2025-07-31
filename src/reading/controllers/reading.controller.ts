@@ -16,6 +16,8 @@ import { CreateReadingDto } from '../dto/create-reading.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FilterReadingDto } from '../dto/filter-reading.dto';
 import { GetAllReadingsQuery } from '../queries/get-all-readings.query';
+import { GetReadingStatsDto } from '../dto/get-reading-stats.dto';
+import { GetReadingStatsQuery } from '../queries/get-reading-stats.query';
 @ApiTags('readings')
 @Controller('readings')
 export class ReadingController {
@@ -66,5 +68,18 @@ export class ReadingController {
     @Query(new ValidationPipe({ transform: true })) filters: FilterReadingDto,
   ): Promise<Reading[]> {
     return this.queryBus.execute(new GetAllReadingsQuery(filters));
+  }
+
+  @Get('stats')
+  @ApiOperation({
+    summary: 'Obter estatísticas por sensor',
+    description:
+      'Retorna a média, mínimo e máximo dos valores registrados por um sensor, com filtro opcional por intervalo de tempo',
+  })
+  async getStats(
+    @Query(new ValidationPipe({ transform: true }))
+    query: GetReadingStatsDto,
+  ): Promise<any> {
+    return this.queryBus.execute(new GetReadingStatsQuery(query));
   }
 }

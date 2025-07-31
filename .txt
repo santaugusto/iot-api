@@ -15,7 +15,7 @@
 | Listagem de sensores                        | ✅ Feito     | `GET /sensors`                                              |
 | Cadastro de leitura de sensores             | ✅ Feito     | `POST /readings` com `sensorId`, `value`, `timestamp`       |
 | Validação de campos (DTO + class-validator) | ✅ Feito     | Erros 400 quando inválido                                   |
-| Listagem de leituras com filtros            | 🔲 Pendente | Deve aceitar `sensorId`, `type`, `dataInicial`, `dataFinal` |
+| Listagem de leituras com filtros            | ✅ Pendente | Deve aceitar `sensorId`, `type`, `dataInicial`, `dataFinal` |
 | Estatísticas (média, mín, máx por sensor)   | 🔲 Pendente | Ex: `GET /readings/stats?sensorId=xxx&start=...&end=...`    |
 
 
