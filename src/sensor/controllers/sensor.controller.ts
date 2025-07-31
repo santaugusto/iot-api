@@ -1,10 +1,14 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateSensorDto } from '../dto/create-sensor.dto';
 import { CreateSensorCommand } from '../commands/create-sensor.command';
 import { GetAllSensorsQuery } from '../queries/get-all-sensors.query';
 import { Sensor } from '../entities/entitie-sensor';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+
+@ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @ApiTags('sensors')
 @Controller('sensors')
 export class SensorController {
