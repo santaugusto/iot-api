@@ -14,6 +14,8 @@ import { Reading } from '../entities/entitie-reading';
 import { CreateReadingCommand } from '../commands/create-reading.command';
 import { CreateReadingDto } from '../dto/create-reading.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FilterReadingDto } from '../dto/filter-reading.dto';
+import { GetAllReadingsQuery } from '../queries/get-all-readings.query';
 @ApiTags('readings')
 @Controller('readings')
 export class ReadingController {
@@ -56,5 +58,13 @@ export class ReadingController {
       ),
     );
     return { message: 'Leitura registrada com sucesso' };
+  }
+
+  @Get('filter')
+  @ApiOperation({ summary: 'Listar todas as leituras com filtros opcionais' })
+  async getAll(
+    @Query(new ValidationPipe({ transform: true })) filters: FilterReadingDto,
+  ): Promise<Reading[]> {
+    return this.queryBus.execute(new GetAllReadingsQuery(filters));
   }
 }
