@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -13,12 +14,15 @@ import { GetReadingsQuery } from '../queries/get-readings.query';
 import { Reading } from '../entities/entitie-reading';
 import { CreateReadingCommand } from '../commands/create-reading.command';
 import { CreateReadingDto } from '../dto/create-reading.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FilterReadingDto } from '../dto/filter-reading.dto';
 import { GetAllReadingsQuery } from '../queries/get-all-readings.query';
 import { GetReadingStatsDto } from '../dto/get-reading-stats.dto';
 import { GetReadingStatsQuery } from '../queries/get-reading-stats.query';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 @ApiTags('readings')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 @Controller('readings')
 export class ReadingController {
   constructor(
