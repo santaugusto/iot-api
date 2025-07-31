@@ -4,6 +4,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ReadingModule } from './reading/reading.module';
 import { SensorModule } from './sensor/sensor.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     CqrsModule,
     SensorModule,
     ReadingModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
