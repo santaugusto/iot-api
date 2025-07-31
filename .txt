@@ -7,3 +7,34 @@
 | 5   | Filtros + agregações                           |
 | 6   | Testes + documentação                          |
 | 7   | Revisão final + entrega (GitHub ou ZIP)        |
+
+
+| Funcionalidade                              | Status      | Observações                                                 |
+| ------------------------------------------- | ----------- | ----------------------------------------------------------- |
+| Cadastro de sensores                        | ✅ Feito     | `POST /sensors` via CQRS                                    |
+| Listagem de sensores                        | ✅ Feito     | `GET /sensors`                                              |
+| Cadastro de leitura de sensores             | ✅ Feito     | `POST /readings` com `sensorId`, `value`, `timestamp`       |
+| Validação de campos (DTO + class-validator) | ✅ Feito     | Erros 400 quando inválido                                   |
+| Listagem de leituras com filtros            | ✅ Pendente | Deve aceitar `sensorId`, `type`, `dataInicial`, `dataFinal` |
+| Estatísticas (média, mín, máx por sensor)   | 🔲 Pendente | Ex: `GET /readings/stats?sensorId=xxx&start=...&end=...`    |
+
+
+| Recurso                                    | Status    | Observações                                           |
+| ------------------------------------------ | --------- | ----------------------------------------------------- |
+| Estrutura modular com NestJS + CQRS        | ✅ Feito   | `@nestjs/cqrs` com comandos e queries                 |
+| Dockerfile                                 | ✅ Feito   | Dockerfile funcional                                  |
+| docker-compose com PostgreSQL              | ✅ Feito   | Banco roda junto via compose                          |
+| Variáveis de ambiente com `@nestjs/config` | ✅ Feito   | Usa `.env` e `ConfigModule` global                    |
+| Migrations automáticas (TypeORM)           | ✅ Parcial | Usa `synchronize: true` (não recomendado em produção) |
+
+
+| Testes               | Status      | Observações                                    |
+| -------------------- | ----------- | ---------------------------------------------- |
+| Testes unitários     | 🔲 Pendente | Ainda não foram definidos arquivos `*.spec.ts` |
+| Testes de integração | 🔲 Pendente | Especialmente para comandos/queries            |
+
+
+| Segurança                      | Status      | Observações                    |
+| ------------------------------ | ----------- | ------------------------------ |
+| Middleware de autenticação/JWT | 🔲 Pendente | Não foi implementado ainda     |
+| Validação básica de entrada    | ✅ Feito     | Com `class-validator` nos DTOs |

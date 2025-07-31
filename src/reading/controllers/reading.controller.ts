@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -13,8 +14,15 @@ import { GetReadingsQuery } from '../queries/get-readings.query';
 import { Reading } from '../entities/entitie-reading';
 import { CreateReadingCommand } from '../commands/create-reading.command';
 import { CreateReadingDto } from '../dto/create-reading.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FilterReadingDto } from '../dto/filter-reading.dto';
+import { GetAllReadingsQuery } from '../queries/get-all-readings.query';
+import { GetReadingStatsDto } from '../dto/get-reading-stats.dto';
+import { GetReadingStatsQuery } from '../queries/get-reading-stats.query';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 @ApiTags('readings')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 @Controller('readings')
 export class ReadingController {
   constructor(
@@ -56,5 +64,26 @@ export class ReadingController {
       ),
     );
     return { message: 'Leitura registrada com sucesso' };
+  }
+
+  @Get('filter')
+  @ApiOperation({ summary: 'Listar todas as leituras com filtros opcionais' })
+  async getAll(
+    @Query(new ValidationPipe({ transform: true })) filters: FilterReadingDto,
+  ): Promise<Reading[]> {
+    return this.queryBus.execute(new GetAllReadingsQuery(filters));
+  }
+
+  @Get('stats')
+  @ApiOperation({
+    summary: 'Obter estatísticas por sensor',
+    description:
+      'Retorna a média, mínimo e máximo dos valores registrados por um sensor, com filtro opcional por intervalo de tempo',
+  })
+  async getStats(
+    @Query(new ValidationPipe({ transform: true }))
+    query: GetReadingStatsDto,
+  ): Promise<any> {
+    return this.queryBus.execute(new GetReadingStatsQuery(query));
   }
 }
