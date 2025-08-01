@@ -23,7 +23,9 @@ export class SensorController {
     description: 'Cria um novo sensor do tipo TEMPERATURE ou HUMIDITY',
   })
   async create(@Body() dto: CreateSensorDto): Promise<Sensor> {
-    return this.commandBus.execute(new CreateSensorCommand(dto.name, dto.type));
+    return this.commandBus.execute(
+      new CreateSensorCommand(dto.name, dto.type, dto.location),
+    );
   }
 
   @Get()
