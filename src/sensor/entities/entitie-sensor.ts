@@ -1,7 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Reading } from 'src/reading/entities/entitie-reading';
 
-export type SensorType = 'TEMPERATURE' | 'HUMIDITY';
+export enum SensorTypeEnum {
+  TEMPERATURE = 'TEMPERATURE',
+  HUMIDITY = 'HUMIDITY',
+}
 
 @Entity()
 export class Sensor {
@@ -13,9 +16,12 @@ export class Sensor {
 
   @Column({
     type: 'enum',
-    enum: ['TEMPERATURE', 'HUMIDITY'],
+    enum: SensorTypeEnum,
   })
-  type: SensorType;
+  type: SensorTypeEnum;
+
+  @Column({ default: 'UNKNOWN' })
+  location: string;
 
   @OneToMany(() => Reading, (reading) => reading.sensor)
   readings: Reading[];

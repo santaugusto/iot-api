@@ -6,6 +6,7 @@ import { SensorModule } from './sensor/sensor.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ElasticsearchModule } from './elasticsearch/elasticsearch.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { UserModule } from './user/user.module';
     ReadingModule,
     AuthModule,
     UserModule,
+    ElasticsearchModule,
   ],
 })
 export class AppModule {}
